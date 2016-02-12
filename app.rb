@@ -25,6 +25,32 @@ class App < Sinatra::Base
     return @n.get_all().to_a().to_json
   end
 
+  post "/send" do
+    cmd = params["cmd"]
+    if cmd.nil?
+      status 400
+      puts "[#{Time.now.to_s}] /send: no command given"
+    else
+      puts "[#{Time.now.to_s}] /send: pushing this command to queue => #{cmd}"
+      @n.push_cmd cmd
+      status 200
+    end
+  end
+
+  post "/send_multi" do
+    cmds = params["cmds"]
+    if cmds.nil?
+      status 400
+      puts "[#{Time.now.to_s}] /send_multi: no command array given for"
+    else
+      puts "[#{Time.now.to_s}] /send_multi: pushing this commands to queue => #{cmds}"
+      cmds.each do |cmd|
+        @n.push_cmd cmd
+      end
+      status 200
+    end
+  end
+
 end
 
 

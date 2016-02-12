@@ -12,7 +12,7 @@
 <body>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
-			<a class="navbar-brand">PRI_Frutas::</a>
+			<a class="navbar-brand">PRI_Frutas::Monitor</a>
 		</div>
 	</nav>
 
@@ -22,9 +22,9 @@
 			<hr/>
 			<form class="form form-inline">
 				<div class="input-group">
-					<input type="text" name="cmd" class="form-control" placeholder="Escriba un comando...">
+					<input type="text" id="cmd-text" class="form-control" placeholder="Escriba un comando...">
 					<span class="input-group-btn">
-						<button class="btn btn-danger">Enviar a todos</button>
+						<button id="btn-send-all" class="btn btn-danger">Enviar a todos</button>
 					</span>
 				</div>
 				<br/>
@@ -39,7 +39,7 @@
 			<h3>Nodos</h3>
 			<hr/>
 			<div id="node_list">
-				No nodes reported
+				No se han reportado nodos.
 			</div>
 		</div>
 	</div>
