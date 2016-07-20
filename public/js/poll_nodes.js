@@ -11,6 +11,7 @@
         console.log('updated');
         data = eval("("+data+")");
         console.log(data);
+        data = transform_data(data);
         parse_data(data);
         //Keep a list of the actual nodes reported by the server on every poll
         upd_actual_nodes(data);
@@ -24,6 +25,19 @@
     clearInterval(fetch_loop);
   };
 
+  transform_data = function(data_arr) {
+    for(var i=0; i<data_arr.length; i++){
+      data_arr[i][1] = eval("("+data_arr[i][1]+")");
+      var data = data_arr[i][1];
+      data.T1 = String(data.T1 / 16)+" ºC";
+      data.T2 = String(data.T2 / 16)+" ºC";
+      data.RTC = new Date(data.RTC);
+      data.ACC = data.ACC/16384;
+      data.W = String(data.W)+" Kg"
+    }
+    return data_arr;
+  };
+
   parse_data = function(data_arr) {
 
     var data, i, len, results;
@@ -35,7 +49,7 @@
       //$('#node_list div').append("<div id='row-" + data[0] + "' class='row well'>");
       $('#node_list').append("<div id='row-" + data[0] + "' class='row well pri-nodes'>");
       
-      var obj = eval("("+data[1]+")");
+      var obj = data[1];
       $("#row-" + data[0]).append("<div class='col-md-2'>" + data[0] + "</div>");
       $("#row-" + data[0]).append("<div class='col-md-8'>" + get_table_for_data(obj) + "</div>");
       $("#row-" + data[0]).append("<button class='btn btn-primary btn-cmd' data-id='"+data[0]+"'>Enviar a "+data[0]+"</button>");
@@ -48,7 +62,7 @@
     for(key in data_obj){
       str_out += "<tr>";
       str_out += "<td>"+key+":</td>";
-      str_out += "<td>"+data_obj[key]+":</td>";
+      str_out += "<td>"+data_obj[key]+"</td>";
       str_out += "</tr>";
     }
     str_out += "</table>";
