@@ -12,6 +12,10 @@ module PRI_Frutas
 			all = @redis.hgetall 'pri_nodes'
 		end
 
+		def get_all_node id_str
+			@redis.lrange id_str, 0 , -1
+		end
+
 		def get_upd_time
 			time = @redis.get 'pri_upd_time'
 		end

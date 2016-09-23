@@ -5,6 +5,7 @@ require 'sinatra'
 require 'thin'
 require 'pri_node'
 require 'json'
+require 'db'
 
 ##
 # App class
@@ -15,10 +16,32 @@ class App < Sinatra::Base
     super
     # Manage nodes data
     @n = PRI_Frutas::Node.new
+    @db = Db.new 'pri_data', 'sensor_data'
   end
 
   get "/" do
    erb :index
+  end
+
+  get "/nodes" do
+    erb :nodes
+  end
+
+  get "/api/nodes" do
+    @n.get_all
+  end
+
+  get "/api/nodes/:id_str/data" do
+    id_str = params[:id_str]
+    @n.get_all_node id_str
+  end
+
+  get "/api/nodes/fast" do
+    JSON.generate @db.get_last_hour(:fast)
+  end
+
+  get "/api/nodes/slow" do
+    JSON.generate @db.get_last_hour(:slow)
   end
 
   get "/feed" do
@@ -50,6 +73,10 @@ class App < Sinatra::Base
       status 200
     end
   end
+
+  # get "/*" do
+  #   erb :index
+  # end
 
 end
 

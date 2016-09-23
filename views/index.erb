@@ -1,47 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head>
-	<title></title>
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.css">
-	<link rel="stylesheet" type="text/css" href="/css/main.css">
-	<script type="text/javascript" src="/js/jquery.js"></script>
-	<script type="text/javascript" src="/js/bootstrap.js"></script>
-	<script type="text/javascript" src="/js/poll_nodes.js"></script>
+  <title>IoT Dashboard</title>
+  <!-- https://angularcdn.com -->
+  <meta charset="utf-8">
+  <base href="/">
+  <!-- libraries css -->
+  <link rel="stylesheet" type="text/css" href="lib/angular-ui/build/angular-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap-theme.css">
+  <link rel="stylesheet" type="text/css" href="lib/nvd3/build/nv.d3.min.css">
+  <!-- custom css -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<a class="navbar-brand">PRI_Frutas::Monitor</a>
-		</div>
-	</nav>
+<!-- navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+<div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        <span>
+          <img alt="Brand" src="http://placehold.it/24x24">
+          IoT Dashboard
+        </span>
+      </a>
+    </div>
 
-	<div class="container">
-		<div class="col-md-12">
-			<h3>Comando</h3>
-			<hr/>
-			<form class="form form-inline">
-				<div class="input-group">
-					<input type="text" id="cmd-text" class="form-control" placeholder="Escriba un comando...">
-					<span class="input-group-btn">
-						<button id="btn-send-all" class="btn btn-danger">Enviar a todos</button>
-					</span>
-				</div>
-				<br/>
-				<h5>
-					<span class="label label-info">
-						...O, Enviar a nodo # pulsando el botón de cada nodo.
-					</span>
-				</h5>
-			</form>
-		</div>
-		<div class="col-md-12">
-			<h3>Nodos</h3>
-			<hr/>
-			<div id="node_list">
-				No se han reportado nodos.
-			</div>
-		</div>
-	</div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Visualizaciones <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Administrar Nodos</a></li>
+        <li><a href="#">Administrar Usuarios</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+            <img alt="Brand" src="http://placehold.it/24x24">
+            Usuario <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Sign out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<!-- end navbar-->
+
+
+<div ui-view>  
+</div>
+
+
+<!-- footer -->
+<footer class="footer">
+  <div class="container">
+    <!-- <p class="text-muted">Place sticky footer content here.</p> -->
+    <p class="text-muted">
+      <span class="glyphicon glyphicon-globe"> Connected</span>
+      &nbsp; &nbsp;
+      <span class="glyphicon glyphicon-sort"> Transferring</span>
+    </p>
+  </div>
+</footer>
+<!-- end footer -->
+
+<!-- Libraries -->
+<script src="lib/angular/angular.min.js"></script>
+<script src="lib/angular-resource/angular-resource.js"></script>
+<script src="lib/angular-ui/build/angular-ui.min.js"></script>
+<script src="lib/angular-ui-utils/ui-utils.js"></script>
+<script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="lib/d3/d3.min.js"></script>
+<script src="lib/nvd3/build/nv.d3.min.js"></script>
+<script src="lib/angular-nvd3/dist/angular-nvd3.js"></script>
+<script src="lib/lodash/dist/lodash.core.min.js"></script>
+<!-- app config -->
+<script src="modules/app/app.js"></script>
+<!-- services -->
+<script src="modules/services/node_data.service.js"></script>
+<!-- controllers -->
+<script src="modules/home/home.controller.js"></script>
+<!-- app routes -->
+<script src="modules/app/routes.client.js"></script>
 </body>
 </html>

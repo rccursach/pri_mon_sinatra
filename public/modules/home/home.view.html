@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">Mediciones</div>
+        <div class="panel-body">
+        <!-- -->
+          <div class="list-group">
+            <a href="#" class="list-group-item active">
+              Sensor #1
+            </a>
+            <a href="#" class="list-group-item">Sensor #2</a>
+            <a href="#" class="list-group-item">Sensor #3</a>
+            <a href="#" class="list-group-item">Sensor #4</a>
+            <a href="#" class="list-group-item">Sensor #5</a>
+          </div>
+        <!-- -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <nvd3 options="vm.options" data="vm.data"></nvd3>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Max</th>
+                <th>Min</th>
+                <th>Avg</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Data 1</td><td>100</td><td>50</td><td>75</td>
+              </tr>
+              <tr>
+                <td>Data 2</td><td>50</td><td>0</td><td>25</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

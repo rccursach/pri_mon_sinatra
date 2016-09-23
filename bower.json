@@ -1,0 +1,32 @@
+{
+  "name": "pri_mon_sinatra",
+  "homepage": "https://github.com/rccursach/pri_mon_sinatra",
+  "authors": [
+    "Ricardo Carrasco Cursach <rccursach@gmail.com>"
+  ],
+  "description": "Sensors Dashboard",
+  "main": "",
+  "license": "Privative",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "public/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-resource": "~1.3",
+    "angular-ui": "^0.4.0",
+    "angular-ui-utils": "bower",
+    "angular-ui-router": "^0.3.1",
+    "bootstrap": "~3",
+    "angular-bootstrap": "~0.13",
+    "angular-nvd3": "^1.0.8",
+    "lodash": "^4.15.0"
+  },
+  "resolutions": {
+    "angular": "~1.3"
+  }
+}
