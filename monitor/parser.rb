@@ -34,9 +34,10 @@ class Parser
     end
     parse_slow(slow_packets).each do |p|
       res << p
+      puts p
     end
 
-    puts res.inspect
+    #puts res.inspect
     return res
 
   end
@@ -44,13 +45,13 @@ class Parser
   def parse_fast fast_arr
     fast_objs = []
     fast_arr.each do |p|
-      accel_x = p[0..1].unpack('H*')[0].to_i(16)
-      accel_y = p[2..3].unpack('H*')[0].to_i(16)
-      accel_z = p[4..5].unpack('H*')[0].to_i(16)
+      accel_x = p[0..1].unpack('s')[0]
+      accel_y = p[2..3].unpack('s')[0]
+      accel_z = p[4..5].unpack('s')[0]
 
-      gyro_x = p[6..7].unpack('H*')[0].to_i(16)
-      gyro_y = p[8..9].unpack('H*')[0].to_i(16)
-      gyro_z = p[10..11].unpack('H*')[0].to_i(16)
+      gyro_x = p[6..7].unpack('s')[0]
+      gyro_y = p[8..9].unpack('s')[0]
+      gyro_z = p[10..11].unpack('s')[0]
 
       imu_time = p[12..15].unpack('L')[0]
 
@@ -66,9 +67,9 @@ class Parser
   def parse_slow slow_arr
     slow_objs = []
     slow_arr.each do |p|
-      temp1 = p[0..1].unpack('H*')[0].to_i(16)
-      temp2 = p[2..3].unpack('H*')[0].to_i(16)
-      weight = p[4..7].unpack('l')[0] #this one is signed long
+      temp1 = p[0..1].unpack('S>')[0]
+      temp2 = p[2..3].unpack('S>')[0]
+      weight = p[4..7].unpack('S>')[0] #this one is signed long
       # weight = p[4..7].unpack('H*')[0].to_i(16)
       rtc_time = p[8..11].unpack('L')[0]
       # rtc_time = p[8..11].unpack('H*')[0].to_i(16)

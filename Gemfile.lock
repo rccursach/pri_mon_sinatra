@@ -31,7 +31,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext
-  mongo (~> 2.1)
+  mongo
   redis
   ruxbee
   sinatra

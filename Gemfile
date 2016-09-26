@@ -3,6 +3,6 @@ source 'https://rubygems.org'
 gem "sinatra"
 gem "redis"
 gem "thin"
-gem "mongo", "~> 2.1"
+gem "mongo"
 gem "bson_ext"
 gem "ruxbee"
