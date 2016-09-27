@@ -18,7 +18,7 @@ module Pri
       @xbee     = XBee.new dev, speed, :API_S1
       @parser   = Parser.new
       @cache    = PRI_FRUTAS::Cache.new cache_opt[:host], cache_opt[:port], 'pri_nodes', 'pri_reg'
-      #@db       = Db.new 'pri_data', 'sensor_data'
+      @db       = Db.new 'pri_data', 'sensor_data'
       @buff_mtx = Mutex.new
     end
 
