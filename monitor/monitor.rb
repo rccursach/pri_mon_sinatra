@@ -7,6 +7,9 @@ require_relative "parser"
 require_relative "cache"
 require_relative "db"
 
+# dont fail silently!!!
+Thread.abort_on_exception = true
+
 module Pri
   class Monitor
 
@@ -15,7 +18,7 @@ module Pri
       @xbee     = XBee.new dev, speed, :API_S1
       @parser   = Parser.new
       @cache    = PRI_FRUTAS::Cache.new cache_opt[:host], cache_opt[:port], 'pri_nodes', 'pri_reg'
-      @db       = Db.new 'pri_data', 'sensor_data'
+      #@db       = Db.new 'pri_data', 'sensor_data'
       @buff_mtx = Mutex.new
     end
 
@@ -25,14 +28,13 @@ module Pri
 
       @buff_mtx.synchronize do
         #[TODO: Insert many!]
+        #[TODO: Please remove db code to another service]
         res_arr.each do |res|
           #puts res.inspect
           packets = @parser.parse_binstr res[:data]
           packets.each do |p|
-            #if p[:accel_x].nil?
-              pp p
-            #end
-            @cache.update_node res[:address].to_s, p.to_json
+            p[:address] = res[:address]
+            #@cache.update_node res[:address].to_s, p.to_json
             # @cache.insert_data res[:address].to_s, p.to_json
             @db.insert_one p
           end
@@ -57,7 +59,7 @@ module Pri
 
             # check not only if limit is reached but if the last thread
             # is done working on that buffer
-            if curr_buff.length > lim #and not @buff_mtx.locked?
+            if curr_buff.length > lim and not @buff_mtx.locked?
               Thread.new(curr_buff, &method(:process_data))
               curr_buff = (curr_buff === buff1 ? buff2 : buff1)
               curr_buff.clear
