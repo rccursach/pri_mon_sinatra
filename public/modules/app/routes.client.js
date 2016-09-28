@@ -15,8 +15,20 @@
       templateUrl: 'modules/home/home.view.html',
       controller: 'homeController',
       controllerAs: 'vm'
+    })
+    .state('home.fast', {
+      url: '/fast',
+      templateUrl: 'modules/sensors_fast/sensorFast.view.html',
+      controller: 'sensorFastController',
+      controllerAs: 'vm'
+    })
+    .state('home.slow', {
+      url: '/slow',
+      templateUrl: 'modules/sensors_slow/sensorSlow.view.html',
+      controller: 'sensorSlowController',
+      controllerAs: 'vm'
     });
-    // .state({
+    // .state('name', {
     //   url: '',
     //   templateUrl: '',
     //   controller: '',

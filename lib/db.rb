@@ -28,15 +28,19 @@ class Db
   def get_last_hour pkg_type
     t = Time.at(Time.now.to_i - 3600).to_i
     k = ''
+    ftype = ''
+
     if pkg_type == :fast
-      k = 'imu_time'
+      k = 'time'
+      ftype = 'F1'
     elsif pkg_type == :slow
       k = 'rtc_time'
+      ftype = 'S1'
     end
 
     begin
       res = []
-      cursor = @db[@collection].find({k => { '$gt' => t }}, { :projection => {:_id => 0} })
+      cursor = @db[@collection].find({'$and' => [{k => { '$gt' => t }}, {:ftype => ftype}]}, { :projection => {:_id => 0} })
       cursor.each do |doc|
         res << doc.to_json
       end

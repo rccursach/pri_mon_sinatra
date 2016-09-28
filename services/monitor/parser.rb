@@ -56,10 +56,11 @@ class Parser
       imu_time = p[12..15].reverse().unpack('L')[0]
 
       fast_objs << {
-        type: 'F1',
+        ftype: 'F1',
         accel_x: accel_x, accel_y: accel_y, accel_z: accel_z,
         gyro_x: gyro_x, gyro_y: gyro_y, gyro_z: gyro_z,
-        imu_time: imu_time
+        imu_time: imu_time,
+        time: Time.now.to_i
        }
     end
     return fast_objs
@@ -74,7 +75,7 @@ class Parser
       rtc_time = p[8..11].reverse().unpack('L')[0]
 
       slow_objs << {
-        type: 'S1',
+        ftype: 'S1',
         t1: temp1, t2: temp2,
         weight: weight,
         rtc_time: rtc_time
