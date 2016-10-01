@@ -13,14 +13,14 @@ class Parser
     fast_packets = []
     slow_packets = []
 
-    packets_arr.each_with_index do |p, idx|
+    packets_arr.each_with_index do |p|
       
-      packets_arr[idx] = p.gsub(delimiter, '');
+      p.gsub!(delimiter, '');
       
-      if packets_arr[idx].start_with?(id_fast)
-        fast_packets << packets_arr[idx].gsub(id_fast, '')
-      elsif packets_arr[idx].start_with?(id_slow)
-        slow_packets << packets_arr[idx].gsub(id_slow, '')
+      if p.start_with?(id_slow)
+        slow_packets << p.gsub(id_slow, '')
+      elsif p.start_with?(id_fast)
+        fast_packets << p.gsub(id_fast, '')
       end
           
     end
@@ -34,7 +34,6 @@ class Parser
     end
     parse_slow(slow_packets).each do |p|
       res << p
-      #puts p
     end
 
     #puts res.inspect
@@ -49,16 +48,19 @@ class Parser
       accel_y = p[2..3].unpack('s>')[0]
       accel_z = p[4..5].unpack('s>')[0]
 
-      gyro_x = p[6..7].unpack('s>')[0]
-      gyro_y = p[8..9].unpack('s>')[0]
-      gyro_z = p[10..11].unpack('s>')[0]
+      # gyro_x = p[6..7].unpack('s>')[0]
+      # gyro_y = p[8..9].unpack('s>')[0]
+      # gyro_z = p[10..11].unpack('s>')[0]
 
-      imu_time = p[12..15].reverse().unpack('L')[0]
+      # imu_time = p[12..15].reverse().unpack('L')[0]
+      imu_time = p[6..9].reverse().unpack('L')[0]
+
+      ## removed from hash:
+      #gyro_x: gyro_x, gyro_y: gyro_y, gyro_z: gyro_z,
 
       fast_objs << {
         ftype: 'F1',
         accel_x: accel_x, accel_y: accel_y, accel_z: accel_z,
-        gyro_x: gyro_x, gyro_y: gyro_y, gyro_z: gyro_z,
         imu_time: imu_time,
         time: Time.now.to_i
        }

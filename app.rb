@@ -5,6 +5,7 @@ require 'sinatra'
 require 'thin'
 require 'pri_node'
 require 'json'
+require 'tilt/erb'
 require 'db'
 
 ##
@@ -23,60 +24,80 @@ class App < Sinatra::Base
    erb :index
   end
 
-  get "/nodes" do
-    erb :nodes
+  get "/api/data/fast" do
+    id = params[:_id]
+    id = id.to_i unless id.nil?
+    JSON.generate @db.get_last_hour :fast, id
   end
 
-  get "/api/nodes" do
-    @n.get_all
+  get "/api/data/slow" do
+    id = params[:_id]
+    id = id.to_i unless id.nil?
+    JSON.generate @db.get_last_hour :slow, id
   end
 
-  get "/api/nodes/:id_str/data" do
-    id_str = params[:id_str]
-    @n.get_all_node id_str
+  ## API for Nodes
+  get '/api/nodes' do
+    _db = @db.get_db
+    res = []
+    cursor = _db[:nodes].find({})
+    cursor.each do |doc|
+      res << doc
+    end
+    return res.to_json
   end
 
-  get "/api/nodes/fast" do
-    JSON.generate @db.get_last_hour(:fast)
+  get '/api/nodes/:id' do
+    id = params[:id]
+    _db = @db.get_db
+    res = []
+    cursor = _db[:nodes].find({id: id.to_i})
+    cursor.each do |doc|
+      res << doc
+    end
+    return res[0].to_json unless res.count == 0
+    halt 404
   end
 
-  get "/api/nodes/slow" do
-    JSON.generate @db.get_last_hour(:slow)
-  end
-
-  get "/feed" do
-    return @n.get_all().to_a().to_json
-  end
-
-  post "/send" do
-    cmd = params["cmd"]
-    if cmd.nil?
-      status 400
-      puts "[#{Time.now.to_s}] /send: no command given"
-    else
-      puts "[#{Time.now.to_s}] /send: pushing this command to queue => #{cmd}"
-      @n.push_cmd cmd
-      status 200
+  post '/api/nodes' do
+    data = JSON.parse request.body.read
+    if data
+      _db = @db.get_db
+      res = _db[:nodes].insert_one(data)
+      halt 500 unless res.successful?
+      status 201
+      data.to_json 
     end
   end
 
-  post "/send_multi" do
-    cmds = params["cmds"]
-    if cmds.nil?
-      status 400
-      puts "[#{Time.now.to_s}] /send_multi: no command array given for"
-    else
-      puts "[#{Time.now.to_s}] /send_multi: pushing this commands to queue => #{cmds}"
-      cmds.each do |cmd|
-        @n.push_cmd cmd
-      end
-      status 200
-    end
+  put '/api/nodes/:id' do
+    # body = JSON.parse request.body.read
+    # t = Task.get(params[:id])
+    # if t.nil?
+    #   halt(404)
+    # end
+    # halt 500 unless Task.update(
+    #   title:      body['title'],
+    #   director:   body['director'],
+    #   year:       body['year'] 
+    #   )
+    # t.to_json
+    halt 404
   end
 
-  # get "/*" do
-  #   erb :index
-  # end
+  delete '/api/nodes/:id' do
+    # t = Task.get(params[:id])
+    # if t.nil?
+    #     halt 404
+    # end
+    # halt 500 unless t.destroy
+    halt 404
+  end
+  ## END API for Nodes
+
+  get "/*" do
+    erb :index
+  end
 
 end
 

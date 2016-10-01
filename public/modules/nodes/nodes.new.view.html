@@ -1,0 +1,20 @@
+<section>
+  <h3>Nuevo Nodo</h3>
+
+  <form class="form">
+    <label for="name">Nombre</label>
+    <input id="name" class="form-control" ng-model="vm.node.name"></input>
+    <hr>
+
+    <label for="id">Identificador</label>
+    <input id="id" type="number" class="form-control" ng-model="vm.node.id"></input>
+    <hr>
+
+    <label for="params">Parametros <span class="text-muted">(Utilice clave:valor en formato JSON)</span></label>
+    <textarea id="params" class="form-control" ng-model="vm.params"
+    placeholder='{"parametros": "deben ser definidos", "en_formato": "JSON"}'></textarea>
+    <hr>
+
+    <button class="btn btn-success pull-right" ng-click="vm.create()">Guardar</button>
+  </form>
+</section>

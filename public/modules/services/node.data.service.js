@@ -8,7 +8,7 @@
   nodeFastService.$inject = ['$resource'];
 
   function nodeFastService($resource) {
-    return $resource('api/nodes/fast', {});
+    return $resource('api/data/fast/:id', {});
   }
 })();
 
@@ -22,6 +22,6 @@
   nodeSlowService.$inject = ['$resource'];
 
   function nodeSlowService($resource) {
-    return $resource('api/nodes/slow', {});
+    return $resource('api/data/slow/:id', {id: '@_id'});
   }
 })();

@@ -22,24 +22,30 @@ module Pri
       @buff_mtx = Mutex.new
     end
 
-    def process_data res_arr
+    def process_data frames_arr
 
       puts "new thread of #{Thread.list.count} many"
-
+      frames = []
       @buff_mtx.synchronize do
-        #[TODO: Insert many!]
-        #[TODO: Please remove db code to another service]
-        res_arr.each do |res|
-          #puts res.inspect
-          packets = @parser.parse_binstr res[:data]
-          packets.each do |p|
-            p[:address] = res[:address]
-            #@cache.update_node res[:address].to_s, p.to_json
-            # @cache.insert_data res[:address].to_s, p.to_json
-            @db.insert_one p
-          end
-        end #end each arr
-      end #end synchronize
+        #frames = [] #Marshal.load(Marshal.dump(frames_arr))
+        frames_arr.each do |res|
+          frames << {rssi: res.rssi, address: res.address_16_bits.to_i(2), api_frame_id: res.api_identifier, data: res.cmd_data}
+        end
+        #puts frames.inspect
+      end
+
+      #[TODO: Insert many!]
+      #[TODO: Please remove db code to another service]
+      frames.each do |f|
+        #puts f.inspect
+        packages = @parser.parse_binstr f[:data]
+        packages.each do |p|
+          p[:address] = f[:address]
+          #@cache.update_node f[:address].to_s, p.to_json
+          # @cache.insert_data f[:address].to_s, p.to_json
+          @db.insert_one p
+        end
+      end #end each arr
     end
 
     def run
@@ -51,9 +57,7 @@ module Pri
       loop do
         begin
           res = @xbee.getresponse
-          if not res.nil? and res.api_identifier == '81'
-
-            res = {rssi: res.rssi, address: res.address_16_bits.to_i(2), api_frame_id: res.api_identifier, data: res.cmd_data}
+          if not res.nil? and res.api_identifier == '81'            
             curr_buff << res
             puts "ok - #{curr_buff.length}"
 

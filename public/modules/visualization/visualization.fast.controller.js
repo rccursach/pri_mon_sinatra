@@ -1,38 +1,41 @@
 (function () {
-  angular.module('app').controller('sensorSlowController', sensorSlowController);
+  angular.module('app').controller('sensorFastController', sensorFastController);
 
-  sensorSlowController.$inject = ['$window', 'nodeSlowService'];
+  sensorFastController.$inject = ['$window', 'nodeFastService', '$scope'];
 
-  function sensorSlowController($window, nodeSlowService) {
+  function sensorFastController($window, nodeFastService, $scope) {
     //
     var vm = this;
     var d3 = $window.d3;
     var _ = $window._;
+    vm.a = [];
 
-    vm.a = nodeSlowService.query();
+    if($scope.current_node != null){
+      vm.a = nodeFastService.query({_id: $scope.current_node});
+    }
+    else{
+      vm.a = nodeFastService.query();
+    }
     vm.a.$promise.then(function(){
       console.log(vm.a);
       for (var i = vm.a.length - 1; i >= 0; i--) {
         vm.a[i] = JSON.parse(vm.a[i]);
-        vm.data[0].values.push([ vm.a[i].rtc_time, vm.a[i].t1 ]);
-        vm.data[1].values.push([ vm.a[i].rtc_time, vm.a[i].t2 ]);
-        vm.data[2].values.push([ vm.a[i].rtc_time, vm.a[i].weight ]);
+        var module_accel = Math.sqrt(Math.pow(vm.a[i].accel_x, 2) + Math.pow(vm.a[i].accel_y, 2) + Math.pow(vm.a[i].accel_z, 2));
+        //var module_gyro = Math.sqrt(Math.pow(vm.a[i].gyro_x, 2) + Math.pow(vm.a[i].gyro_y, 2) + Math.pow(vm.a[i].gyro_z, 2))
+        vm.data[0].values.push([ vm.a[i].time, module_accel ]);
+        //vm.data[1].values.push([ vm.a[i].time, module_gyro ]);
       }
     });
 
     vm.data = [
       {
-        key: "T1",
-        values:[]
-      },
-      {
-        key: "T2",
-        values:[]
-      },
-      {
-        key: "Peso",
+        key: "Accel",
         values:[]
       }
+      // ,{
+      //   key: "Gyro",
+      //   values:[]
+      // }
     ];
 
     vm.options = {

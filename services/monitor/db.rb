@@ -4,6 +4,7 @@ require 'pp'
 class Db
 
   def initialize db_name, col_name
+    Mongo::Logger.logger.level = ::Logger::FATAL
     @db = Mongo::Client.new([ '127.0.0.1:27017' ], :database => db_name)
     @collection = col_name.to_sym
   end

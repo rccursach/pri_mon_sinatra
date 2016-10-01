@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">Mediciones</div>
+        <div class="panel-body">
+        <!-- -->
+          <div class="list-group">
+            <a ui-sref=".fast" ui-sref-active="active" class="list-group-item">Datos Rápidos</a>
+            <a ui-sref=".slow" ui-sref-active="active" class="list-group-item">Datos Lentos</a>
+          </div>
+        <!-- -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="content-panel">
+        <form class="form">
+          <label for="node_select">Nodo a observar: </label>
+          <select id="node_select" ng-model="current_node">
+            <option ng-repeat="node in vm.nodes" value="{{node.id}}">{{node.name}}</option>
+          </select>
+        </form>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div ui-view></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

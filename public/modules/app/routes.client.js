@@ -16,18 +16,43 @@
       controller: 'homeController',
       controllerAs: 'vm'
     })
-    .state('home.fast', {
-      url: '/fast',
-      templateUrl: 'modules/sensors_fast/sensorFast.view.html',
+    .state('viz', {
+      url: '/viz',
+      templateUrl: 'modules/visualization/visualization.view.html',
+      controller: 'vizController',
+      controllerAs: 'vm'
+    })
+    .state('viz.fast', {
+      url: 'viz/fast',
+      templateUrl: 'modules/visualization/visualization.fast.view.html',
       controller: 'sensorFastController',
       controllerAs: 'vm'
     })
-    .state('home.slow', {
-      url: '/slow',
-      templateUrl: 'modules/sensors_slow/sensorSlow.view.html',
+    .state('viz.slow', {
+      url: 'viz/slow',
+      templateUrl: 'modules/visualization/visualization.slow.view.html',
       controller: 'sensorSlowController',
       controllerAs: 'vm'
-    });
+    })
+    .state('nodes', {
+      url: '/nodes',
+      templateUrl: 'modules/nodes/nodes.view.html',
+      controller: 'nodesController',
+      controllerAs: 'vm'
+    })
+    .state('nodes.new', {
+      url: '/nodes/new',
+      templateUrl: 'modules/nodes/nodes.new.view.html',
+      controller: 'nodesNewController',
+      controllerAs: 'vm'
+    })
+    .state('nodes.manage', {
+      url: '/nodes/manage',
+      templateUrl: 'modules/nodes/nodes.manage.view.html',
+      controller: 'nodesManageController',
+      controllerAs: 'vm'
+    })
+    ;
     // .state('name', {
     //   url: '',
     //   templateUrl: '',

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
-  <title>IoT Dashboard</title>
-  <!-- https://angularcdn.com -->
+  <title>Nodos Dashboard</title>
   <meta charset="utf-8">
   <base href="/">
   <!-- libraries css -->
@@ -25,10 +24,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" ui-sref="home">
         <span>
           <img alt="Brand" src="http://placehold.it/24x24">
-          IoT Dashboard
+          Nodos Dashboard
         </span>
       </a>
     </div>
@@ -36,8 +35,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Visualizaciones <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Administrar Nodos</a></li>
+        <li ui-sref="viz" ui-sref-active="active"><a>Visualizaciones</a></li>
+        <li ui-sref="nodes" ui-sref-active="active"><a>Administrar Nodos</a></li>
         <!--li><a href="#">Administrar Usuarios</a></li-->
       </ul>
 
@@ -96,11 +95,16 @@
 <!-- app config -->
 <script src="modules/app/app.js"></script>
 <!-- services -->
-<script src="modules/services/node_data.service.js"></script>
+<script src="modules/services/node.data.service.js"></script>
+<script src="modules/services/nodes.service.js"></script>
 <!-- controllers -->
 <script src="modules/home/home.controller.js"></script>
-<script src="modules/sensors_fast/sensorFastController.js"></script>
-<script src="modules/sensors_slow/sensorSlowController.js"></script>
+<script src="modules/visualization/visualization.controller.js"></script>
+<script src="modules/visualization/visualization.fast.controller.js"></script>
+<script src="modules/visualization/visualization.slow.controller.js"></script>
+<script src="modules/nodes/nodes.controller.js"></script>
+<script src="modules/nodes/nodes.new.controller.js"></script>
+<script src="modules/nodes/nodes.manage.controller.js"></script>
 <!-- app routes -->
 <script src="modules/app/routes.client.js"></script>
 </body>
