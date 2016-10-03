@@ -20,7 +20,9 @@
       console.log(vm.a);
       for (var i = vm.a.length - 1; i >= 0; i--) {
         vm.a[i] = JSON.parse(vm.a[i]);
-        var module_accel = Math.sqrt(Math.pow(vm.a[i].accel_x, 2) + Math.pow(vm.a[i].accel_y, 2) + Math.pow(vm.a[i].accel_z, 2));
+        var k = 16384;
+        var module_accel = Math.sqrt(Math.pow((vm.a[i].accel_x/k), 2) + Math.pow((vm.a[i].accel_y/k), 2) + Math.pow((vm.a[i].accel_z/k), 2));
+        module_accel -= 1;
         //var module_gyro = Math.sqrt(Math.pow(vm.a[i].gyro_x, 2) + Math.pow(vm.a[i].gyro_y, 2) + Math.pow(vm.a[i].gyro_z, 2))
         vm.data[0].values.push([ vm.a[i].time, module_accel ]);
         //vm.data[1].values.push([ vm.a[i].time, module_gyro ]);
