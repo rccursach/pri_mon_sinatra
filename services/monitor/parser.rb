@@ -43,6 +43,7 @@ class Parser
 
   def parse_fast fast_arr
     fast_objs = []
+    parse_time = Time.now.to_f
     fast_arr.each do |p|
       accel_x = p[0..1].unpack('s>')[0]
       accel_y = p[2..3].unpack('s>')[0]
@@ -62,9 +63,18 @@ class Parser
         ftype: 'F1',
         accel_x: accel_x, accel_y: accel_y, accel_z: accel_z,
         imu_time: imu_time,
-        time: Time.now.to_i
+        time: parse_time
        }
     end
+
+    #sort by imu_time and fix datetime difference
+    # fast_objs.sort_by { |hsh| hsh[:imu_time] }
+    fast_objs.each_with_index { |o, i|
+      if i > 0
+        o[:time] += ((o[:imu_time] - fast_objs[0][:imu_time])/10e6)
+      end
+    }
+
     return fast_objs
   end
 

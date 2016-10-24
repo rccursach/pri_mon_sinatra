@@ -18,7 +18,7 @@
         <form class="form">
           <label for="node_select">Nodo a observar: </label>
           <select id="node_select" ng-model="current_node">
-            <option ng-repeat="node in vm.nodes" value="{{node.id}}">{{node.name}}</option>
+            <option ng-repeat="node in nodes" value="{{nodes.indexOf(node)}}">{{node.name}}</option>
           </select>
         </form>
       </div>

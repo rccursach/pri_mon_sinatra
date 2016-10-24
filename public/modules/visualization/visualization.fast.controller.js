@@ -11,7 +11,7 @@
     vm.a = [];
 
     if($scope.current_node != null){
-      vm.a = nodeFastService.query({_id: $scope.current_node});
+      vm.a = nodeFastService.query({_id: $scope.nodes[$scope.current_node].id});
     }
     else{
       vm.a = nodeFastService.query();
@@ -24,7 +24,9 @@
         var module_accel = Math.sqrt(Math.pow((vm.a[i].accel_x/k), 2) + Math.pow((vm.a[i].accel_y/k), 2) + Math.pow((vm.a[i].accel_z/k), 2));
         module_accel -= 1;
         //var module_gyro = Math.sqrt(Math.pow(vm.a[i].gyro_x, 2) + Math.pow(vm.a[i].gyro_y, 2) + Math.pow(vm.a[i].gyro_z, 2))
-        vm.data[0].values.push([ vm.a[i].time, module_accel ]);
+        var t = parseFloat(vm.a[i].time);
+        t = t === NaN ? 0 : t*1000;
+        vm.data[0].values.push([ t, module_accel ]);
         //vm.data[1].values.push([ vm.a[i].time, module_gyro ]);
       }
     });

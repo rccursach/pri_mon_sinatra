@@ -9,12 +9,14 @@
     var d3 = $window.d3;
     var _ = $window._;
     vm.a = [];
+    var wfactor = null;
 
     if($scope.current_node != null){
-      vm.a = nodeSlowService.query({_id: $scope.current_node});
+      vm.a = nodeSlowService.query({_id: $scope.nodes[$scope.current_node].id});
+      wfactor = $scope.nodes[$scope.current_node].params.wfactor || 1;
     }
     else{
-      vm.a = nodeSlowService.query();
+      //vm.a = nodeSlowService.query();
     }
     vm.a.$promise.then(function(){
       console.log(vm.a);
@@ -22,7 +24,7 @@
         vm.a[i] = JSON.parse(vm.a[i]);
         vm.data[0].values.push([ vm.a[i].rtc_time, vm.a[i].t1 ]);
         vm.data[1].values.push([ vm.a[i].rtc_time, vm.a[i].t2 ]);
-        vm.data[2].values.push([ vm.a[i].rtc_time, vm.a[i].weight ]);
+        vm.data[2].values.push([ vm.a[i].rtc_time, (vm.a[i].weight/wfactor)*1007 ]);
       }
     });
 

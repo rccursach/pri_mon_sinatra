@@ -6,9 +6,9 @@
   function vizController($scope, nodesService) {
     //
     var vm = this;
-    vm.nodes = nodesService.query();
+    $scope.nodes = nodesService.query();
 
-    vm.nodes.$promise.then(function(res){ console.log(res); });
+    $scope.nodes.$promise.then(function(res){ console.log(res); });
 
     $scope.current_node = null;
 
