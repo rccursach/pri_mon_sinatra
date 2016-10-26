@@ -22,9 +22,11 @@
       console.log(vm.a);
       for (var i = vm.a.length - 1; i >= 0; i--) {
         vm.a[i] = JSON.parse(vm.a[i]);
-        vm.data[0].values.push([ vm.a[i].rtc_time, vm.a[i].t1 ]);
-        vm.data[1].values.push([ vm.a[i].rtc_time, vm.a[i].t2 ]);
-        vm.data[2].values.push([ vm.a[i].rtc_time, (vm.a[i].weight/wfactor)*1007 ]);
+        var t = parseFloat(vm.a[i].rtc_time);
+        t = t === NaN ? 0 : t*1000;
+        vm.data[0].values.push([ t, vm.a[i].t1 ]);
+        vm.data[1].values.push([ t, vm.a[i].t2 ]);
+        vm.data[2].values.push([ t, (vm.a[i].weight/wfactor)*1007 ]);
       }
     });
 

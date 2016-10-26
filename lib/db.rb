@@ -31,9 +31,7 @@ class Db
   end
 
   def get_last_hour pkg_type, id = nil
-    #t = Time.at(Time.now.to_i - 3600).to_i
-    # t = Time.at(Time.now.to_i - (3700*4)).to_i
-    t = 0
+    t = Time.at(Time.now.to_i - 3600).to_i
     k = ''
     ftype = ''
 
@@ -48,9 +46,9 @@ class Db
     begin
       res = []
       if id.nil?
-        cursor = @db[@collection].find({'$and' => [{k => { '$gt' => t }}, {:ftype => ftype}, {:address => id}]}, { :projection => {:_id => 0} })
+        cursor = @db[@collection].find({'$and' => [{k => { '$gt' => t }}, {:ftype => ftype}, {:address => id}]}, { :projection => {:_id => 0} }).sort({k.to_sym => 1})
       else
-        cursor = @db[@collection].find({'$and' => [{k => { '$gt' => t }}, {:ftype => ftype}, {:address => id}]}, { :projection => {:_id => 0} })
+        cursor = @db[@collection].find({'$and' => [{k => { '$gt' => t }}, {:ftype => ftype}, {:address => id}]}, { :projection => {:_id => 0} }).sort({k.to_sym => 1})
       end
       cursor.each do |doc|
         res << doc.to_json

@@ -1,23 +1,28 @@
 (function () {
   angular.module('app').controller('sensorFastController', sensorFastController);
 
-  sensorFastController.$inject = ['$window', 'nodeFastService', '$scope'];
+  sensorFastController.$inject = ['$window', 'nodeFastService', '$scope', '$interval'];
 
-  function sensorFastController($window, nodeFastService, $scope) {
+  function sensorFastController($window, nodeFastService, $scope, $interval) {
     //
     var vm = this;
     var d3 = $window.d3;
     var _ = $window._;
     vm.a = [];
+    var interval_tasks_not_loaded = true;
 
     if($scope.current_node != null){
       vm.a = nodeFastService.query({_id: $scope.nodes[$scope.current_node].id});
     }
     else{
+      console.log('current_node is null!');
       vm.a = nodeFastService.query();
     }
+
     vm.a.$promise.then(function(){
       console.log(vm.a);
+      serie = { key: 'Acceleracion', values: [] };
+
       for (var i = vm.a.length - 1; i >= 0; i--) {
         vm.a[i] = JSON.parse(vm.a[i]);
         var k = 16384;
@@ -26,20 +31,19 @@
         //var module_gyro = Math.sqrt(Math.pow(vm.a[i].gyro_x, 2) + Math.pow(vm.a[i].gyro_y, 2) + Math.pow(vm.a[i].gyro_z, 2))
         var t = parseFloat(vm.a[i].time);
         t = t === NaN ? 0 : t*1000;
-        vm.data[0].values.push([ t, module_accel ]);
+        serie.values.push([ t, module_accel ]);
+        //vm.data[0].values.push([ vm.a[i].time, module_accel ]);
         //vm.data[1].values.push([ vm.a[i].time, module_gyro ]);
       }
+      serie.values = _.sortBy(serie.values, 0);
+      vm.data.push(serie);
+      // Load interval tasks that manipulates this data!
+      // subsequent calls will be ignored because of 'interval_tasks_not_loaded'
+      // variable being changed to false
+      load_interval_tasks();
     });
 
     vm.data = [
-      {
-        key: "Accel",
-        values:[]
-      }
-      // ,{
-      //   key: "Gyro",
-      //   values:[]
-      // }
     ];
 
     vm.options = {
@@ -78,14 +82,40 @@
           enabled: false,
           scaleExtent: [1, 10],
           useFixedDomain: false,
-          useNiceScale: false,
+          useNiceScale: true,
           horizontalOff: false,
-          verticalOff: true,
+          verticalOff: false,
           unzoomEventType: 'dblclick.zoom'
         }
       }
     };
 
-    console.log('home');
+    function load_interval_tasks() {
+      if(interval_tasks_not_loaded){
+        $interval(remove_old_records, 4000);
+      }
+      interval_tasks_not_loaded = false;
+    }
+
+    function remove_old_records() {
+      console.log('cleaning up!');
+      var last_hour = (((new Date()).getTime() /1000) - 3600);
+      vm.data.forEach(function (serie) {
+        var vals = serie.values;
+        // remove left values until keep the one hour margin!
+        try {
+          while(vals.length) {
+            if(vals[0][0] < last_hour) {
+              vals.shift();
+              cnsole.log('droped old record!');
+            }
+            else { break; }
+          }
+        }
+        catch(e) {
+          console.log('all elements were removed!');
+        }
+      });
+    }
   }
 })();
