@@ -91,7 +91,7 @@ $ git clone https://github.com/rccursach/pri_monitor.git
 
   * Install the application's ruby
     ```bash
-    $ rvm install ruby-2.2.2
+    $ rvm install ruby-2.2.4
     ```
     
   * Install server-side (ruby) dependencies
