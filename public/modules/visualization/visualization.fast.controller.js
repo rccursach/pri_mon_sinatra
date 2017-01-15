@@ -32,51 +32,6 @@
       load_interval_tasks();
     });
 
-
-    vm.options = {
-      chart: {
-        type: 'lineChart',
-        height: 450,
-        margin: {
-          top: 20,
-          right: 20,
-          bottom: 30,
-          left: 40
-        },
-        x: function (d) {
-          return d[0];
-        },
-        y: function (d) {
-          return d[1];
-        },
-        useVoronoi: false,
-        clipEdge: true,
-        duration: 100,
-        useInteractiveGuideline: true,
-        xAxis: {
-          //showMaxMin: false,
-          tickFormat: function (d) {
-            return d3.time.format('%X')(new Date(d));
-            //return d;
-          }
-        },
-        yAxis: {
-          tickFormat: function (d) {
-            return d3.format(',.2f')(d);
-          }
-        },
-        zoom: {
-          enabled: false,
-          scaleExtent: [1, 10],
-          useFixedDomain: false,
-          useNiceScale: true,
-          horizontalOff: false,
-          verticalOff: false,
-          unzoomEventType: 'dblclick.zoom'
-        }
-      }
-    };
-
     function load_series(series_data) {
       var serie = [];
       for (var i = series_data.length - 1; i >= 0; i--) {
@@ -130,7 +85,6 @@
       function(err) {
         console.log(err);
       });
-
     }
 
     function remove_old_records() {
@@ -154,5 +108,50 @@
         }
       });
     }
+
+    vm.options = {
+      chart: {
+        type: 'lineChart',
+        height: 450,
+        margin: {
+          top: 20,
+          right: 20,
+          bottom: 30,
+          left: 40
+        },
+        x: function (d) {
+          return d[0];
+        },
+        y: function (d) {
+          return d[1];
+        },
+        useVoronoi: false,
+        clipEdge: true,
+        duration: 100,
+        useInteractiveGuideline: true,
+        xAxis: {
+          //showMaxMin: false,
+          tickFormat: function (d) {
+            return d3.time.format('%X')(new Date(d));
+            //return d;
+          }
+        },
+        yAxis: {
+          tickFormat: function (d) {
+            return d3.format(',.2f')(d);
+          }
+        },
+        zoom: {
+          enabled: false,
+          scaleExtent: [1, 10],
+          useFixedDomain: false,
+          useNiceScale: true,
+          horizontalOff: false,
+          verticalOff: false,
+          unzoomEventType: 'dblclick.zoom'
+        }
+      }
+    };
+
   }
 })();

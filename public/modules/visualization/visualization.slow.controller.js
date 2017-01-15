@@ -1,15 +1,17 @@
 (function () {
   angular.module('app').controller('sensorSlowController', sensorSlowController);
 
-  sensorSlowController.$inject = ['$window', 'nodeSlowService', '$scope'];
+  sensorSlowController.$inject = ['$window', 'nodeSlowService', '$scope', '$interval'];
 
-  function sensorSlowController($window, nodeSlowService, $scope) {
+  function sensorSlowController($window, nodeSlowService, $scope, $interval) {
     //
     var vm = this;
     var d3 = $window.d3;
     var _ = $window._;
     vm.a = [];
     var wfactor = null;
+    var interval_tasks_not_loaded = true;
+    var tasks_interval = undefined;
 
     if($scope.current_node != null){
       vm.a = nodeSlowService.query({_id: $scope.nodes[$scope.current_node].id});
@@ -18,17 +20,6 @@
     else{
       // vm.a = nodeSlowService.query();
     }
-    vm.a.$promise.then(function(){
-      console.log(vm.a);
-      for (var i = vm.a.length - 1; i >= 0; i--) {
-        vm.a[i] = JSON.parse(vm.a[i]);
-        var t = parseFloat(vm.a[i].rtc_time);
-        t = t === NaN ? 0 : t*1000;
-        vm.data[0].values.push([ t, vm.a[i].t1 ]);
-        vm.data[1].values.push([ t, vm.a[i].t2 ]);
-        // vm.data[2].values.push([ t, (vm.a[i].weight/wfactor)*1007 ]);
-      }
-    });
 
     vm.data = [
       {
@@ -45,6 +36,81 @@
       //   values:[]
       // }
     ];
+
+    vm.a.$promise.then(function(){
+      console.log(vm.a);
+      load_series(vm.a);
+      load_interval_tasks();
+    });
+
+    function load_series(series_data) {
+      for (var i = series_data.length - 1; i >= 0; i--) {
+        series_data[i] = JSON.parse(series_data[i]);
+        var t = parseFloat(series_data[i].rtc_time);
+        t = t === NaN ? 0 : t*1000;
+        vm.data[0].values.push([ t, series_data[i].t1 ]);
+        vm.data[1].values.push([ t, series_data[i].t2 ]);
+        // vm.data[2].values.push([ t, (series_data[i].weight/wfactor)*1007 ]);
+      }
+    }
+
+    function load_interval_tasks() {
+      if(interval_tasks_not_loaded){
+        tasks_interval = $interval(periodic_tasks, 4000);
+        $scope.$on("$destroy", function( event ) {
+          stop_tasks_interval();
+          console.log("tasks_interval canceled")
+        });
+      }
+      interval_tasks_not_loaded = false;
+    }
+
+    function periodic_tasks() {
+      get_new_records();
+      remove_old_records();
+    }
+
+    function stop_tasks_interval() {
+      $interval.cancel(tasks_interval);
+      tasks_interval = undefined;
+      interval_tasks_not_loaded = true;
+    }
+
+    function get_new_records() {
+      console.log('getting new records!');
+      // var time = (((new Date()).getTime() /1000) - 4);
+      // poll new values
+      var new_data = nodeSlowService.query({_id: $scope.nodes[$scope.current_node].id, nsec: 4});
+      new_data.$promise.then(function(data) {
+        console.log(data);
+        load_series(data);
+      },
+      function(err) {
+        console.log(err);
+      });
+    }
+
+    function remove_old_records() {
+      console.log('cleaning up!');
+      var last_hour = (((new Date()).getTime() /1000) - 3600) * 1000;
+      vm.data.forEach(function (serie) {
+        var vals = serie.values;
+        // remove left values until keep the one hour margin!
+        try {
+          while(vals.length) {
+            console.log("" + vals[0][0] + " < " + last_hour + "?");
+            if(vals[0][0] < last_hour) {
+              vals.shift();
+              console.log('droped old record!');
+            }
+            else { break; }
+          }
+        }
+        catch(e) {
+          console.log('all elements were removed!');
+        }
+      });
+    }
 
     vm.options = {
       chart: {
