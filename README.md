@@ -25,7 +25,7 @@
   
   * WEB UI:
   
-  Just open [http://localhost:4321](http://localhost:4321)
+  Just open [http://localhost:4321](http://localhost:4567)
   
 --
 
