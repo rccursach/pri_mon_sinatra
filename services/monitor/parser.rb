@@ -43,7 +43,7 @@ class Parser
 
   def parse_fast fast_arr
     fast_objs = []
-    parse_time = Time.now.to_f
+    # parse_time = Time.now.to_f
     fast_arr.each do |p|
       accel_x = p[0..1].unpack('s>')[0]
       accel_y = p[2..3].unpack('s>')[0]
@@ -53,27 +53,35 @@ class Parser
       # gyro_y = p[8..9].unpack('s>')[0]
       # gyro_z = p[10..11].unpack('s>')[0]
 
-      # imu_time = p[12..15].reverse().unpack('L')[0]
-      imu_time = p[6..9].reverse().unpack('L')[0]
+      # imu_time = p[12..15].reverse().unpack('L')[0] # this doesn't work
+      # imu_time = p[6..9].reverse().unpack('L')[0]
 
       ## removed from hash:
       #gyro_x: gyro_x, gyro_y: gyro_y, gyro_z: gyro_z,
 
+      # fast_objs << {
+      #   ftype: 'F1',
+      #   accel_x: accel_x, accel_y: accel_y, accel_z: accel_z,
+      #   imu_time: imu_time,
+      #   time: parse_time
+      # }
+      time = Time.now.to_i
       fast_objs << {
         ftype: 'F1',
         accel_x: accel_x, accel_y: accel_y, accel_z: accel_z,
-        imu_time: imu_time,
-        time: parse_time
-       }
+        imu_time: time,
+        time: time
+      }
+
     end
 
     #sort by imu_time and fix datetime difference
     # fast_objs.sort_by { |hsh| hsh[:imu_time] }
-    fast_objs.each_with_index { |o, i|
-      if i > 0
-        o[:time] += ((o[:imu_time] - fast_objs[0][:imu_time])/10e6)
-      end
-    }
+    # fast_objs.each_with_index { |o, i|
+    #   if i > 0
+    #     o[:time] += ((o[:imu_time] - fast_objs[0][:imu_time])/10e6)
+    #   end
+    # }
 
     return fast_objs
   end
@@ -83,15 +91,23 @@ class Parser
     slow_arr.each do |p|
       temp1 = p[0..1].unpack('s>')[0] / 16.0
       temp2 = p[2..3].unpack('s>')[0] / 16.0
-      weight = p[4..7].unpack('l>')[0] #this one is signed long
-      rtc_time = p[8..11].reverse().unpack('L')[0]
+      # weight = p[4..7].unpack('l>')[0] #this one is signed long
+      # rtc_time = p[8..11].reverse().unpack('L')[0]
 
+      time = Time.now.to_i
+      # slow_objs << {
+      #   ftype: 'S1',
+      #   t1: temp1, t2: temp2,
+      #   weight: weight,
+      #   rtc_time: rtc_time
+      # }
       slow_objs << {
         ftype: 'S1',
         t1: temp1, t2: temp2,
-        weight: weight,
-        rtc_time: rtc_time
+        weight: 0,
+        rtc_time: time
       }
+
     end
     return slow_objs
   end
