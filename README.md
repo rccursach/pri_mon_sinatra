@@ -1,8 +1,8 @@
-# pri_mon_sinatra
-* [Running the application](https://github.com/rccursach/pri_mon_sinatra/new/master?readme=1#running-the-application)
-* [Installing the application and dependencies:](https://github.com/rccursach/pri_mon_sinatra/new/master?readme=1#installing-the-application-and-dependencies)
-  * [Install System Dependencies](https://github.com/rccursach/pri_mon_sinatra/new/master?readme=1#install-system-dependencies)
-  * [Install Project Dependencies](https://github.com/rccursach/pri_mon_sinatra/new/master?readme=1#install-project-dependencies)
+# pri_monitor
+* [Running the application](#running-the-application)
+* [Installing the application and dependencies:](#installing-the-application-and-dependencies)
+  * [Install System Dependencies](#install-system-dependencies)
+  * [Install Project Dependencies](#install-project-dependencies)
   
 --
 
@@ -33,7 +33,7 @@
 
 * Clone the repo:
 ```bash
-$ git clone https://github.com/rccursach/pri_mon_sinatra.git
+$ git clone https://github.com/rccursach/pri_monitor.git
 ```
 
 --
@@ -87,7 +87,7 @@ $ git clone https://github.com/rccursach/pri_mon_sinatra.git
 
 *Please do not copy the shell prompt symbol ($) !!*
 
-*First enter the project directory: `$ cd pri_mon_sinatra`*
+*First enter the project directory: `$ cd pri_monitor`*
 
   * Install the application's ruby
     ```bash
@@ -105,4 +105,4 @@ $ git clone https://github.com/rccursach/pri_mon_sinatra.git
     ```
 --
 
-*The required dependencies are now installed. You may want to see [Running the application](https://github.com/rccursach/pri_mon_sinatra/new/master?readme=1#running-the-application) now.*
+*The required dependencies are now installed. You may want to see [Running the application](#running-the-application) now.*
