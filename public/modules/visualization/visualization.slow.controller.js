@@ -13,10 +13,10 @@
 
     if($scope.current_node != null){
       vm.a = nodeSlowService.query({_id: $scope.nodes[$scope.current_node].id});
-      wfactor = $scope.nodes[$scope.current_node].params.wfactor || 1;
+      // wfactor = $scope.nodes[$scope.current_node].params.wfactor || 1;
     }
     else{
-      //vm.a = nodeSlowService.query();
+      // vm.a = nodeSlowService.query();
     }
     vm.a.$promise.then(function(){
       console.log(vm.a);
@@ -26,7 +26,7 @@
         t = t === NaN ? 0 : t*1000;
         vm.data[0].values.push([ t, vm.a[i].t1 ]);
         vm.data[1].values.push([ t, vm.a[i].t2 ]);
-        vm.data[2].values.push([ t, (vm.a[i].weight/wfactor)*1007 ]);
+        // vm.data[2].values.push([ t, (vm.a[i].weight/wfactor)*1007 ]);
       }
     });
 
@@ -38,11 +38,12 @@
       {
         key: "T2",
         values:[]
-      },
-      {
-        key: "Peso",
-        values:[]
       }
+      // ,
+      // {
+      //   key: "Peso",
+      //   values:[]
+      // }
     ];
 
     vm.options = {

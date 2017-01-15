@@ -42,7 +42,8 @@ module Pri
         ftype: 'S1',
         t1: temp1, t2: temp2,
         weight: 0,
-        rtc_time: time
+        rtc_time: time,
+        address: 1
       }
     end
 
@@ -56,7 +57,8 @@ module Pri
         ftype: 'F1',
         accel_x: accel_x, accel_y: accel_y, accel_z: accel_z,
         imu_time: time,
-        time: time
+        time: time,
+        address: 1
       }
     end
   end

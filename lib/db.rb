@@ -30,8 +30,10 @@ class Db
     end
   end
 
-  def get_last_hour pkg_type, id = nil
-    t = Time.at(Time.now.to_i - 3600).to_i
+  def get_last_hour pkg_type, id = nil, nsec = nil
+    nsec = nsec.nil? ? 3600 : nsec # if no seconds passed look up from las hour
+    puts "getting packages for #{id.nil? ? 'all' : id} from the last #{nsec} seconds"
+    t = Time.at(Time.now.to_i - nsec).to_i
     k = ''
     ftype = ''
 
@@ -58,5 +60,4 @@ class Db
       puts e.message
     end
   end
-
 end

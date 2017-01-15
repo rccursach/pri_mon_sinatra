@@ -26,14 +26,18 @@ class App < Sinatra::Base
 
   get "/api/data/fast" do
     id = params[:_id]
+    nsec = params[:nsec]
     id = id.to_i unless id.nil?
-    JSON.generate @db.get_last_hour :fast, id
+    nsec = nsec.to_i unless nsec.nil?
+    JSON.generate @db.get_last_hour(:fast, id, nsec)
   end
 
   get "/api/data/slow" do
     id = params[:_id]
+    nsec = params[:nsec]
     id = id.to_i unless id.nil?
-    JSON.generate @db.get_last_hour :slow, id
+    nsec = nsec.to_i unless nsec.nil?
+    JSON.generate @db.get_last_hour(:slow, id, nsec)
   end
 
   ## API for Nodes
