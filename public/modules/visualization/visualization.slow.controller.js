@@ -44,14 +44,29 @@
     });
 
     function load_series(series_data) {
+      var temp_1 = [];
+      var temp_2 = [];
       for (var i = series_data.length - 1; i >= 0; i--) {
         series_data[i] = JSON.parse(series_data[i]);
         var t = parseFloat(series_data[i].rtc_time);
         t = t === NaN ? 0 : t*1000;
-        vm.data[0].values.push([ t, series_data[i].t1 ]);
-        vm.data[1].values.push([ t, series_data[i].t2 ]);
+        temp_1.push([ t, series_data[i].t1 ]);
+        temp_2.push([ t, series_data[i].t2 ]);
+        // vm.data[0].values.push([ t, series_data[i].t1 ]);
+        // vm.data[1].values.push([ t, series_data[i].t2 ]);
         // vm.data[2].values.push([ t, (series_data[i].weight/wfactor)*1007 ]);
       }
+      // Sort by time
+      temp_1 = _.sortBy(temp_1, 0);
+      temp_2 = _.sortBy(temp_2, 0);
+
+      // add series to chart
+      temp_1.forEach(function(s) {
+        vm.data[0].values.push(s);
+      });
+      temp_2.forEach(function(s) {
+        vm.data[1].values.push(s);
+      });
     }
 
     function load_interval_tasks() {
