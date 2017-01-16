@@ -35,7 +35,7 @@ First change to the application's directory:
   
   * WEB UI:
   
-  Just open [http://localhost:4321](http://localhost:4567)
+  Just open [http://localhost:4567](http://localhost:4567)
   
 --
 
