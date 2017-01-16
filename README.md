@@ -10,12 +10,22 @@
 
 *Please do not copy the shell prompt symbol ($) !!*
 
+First change to the application's directory:
+
+`$ cd pri_monitor/`
+
   * XBee listener:
   
   First find out your speed in bauds and wich device *(maybe `dmesg | tail -n 20` right after connecting the usb?)*
   
   ```bash
-  $ ruby ./services/mon.rb --speed 57600 --device /dev/ttyUSB0
+  $ rvmsudo ./services/mon.rb --speed 57600 --device /dev/ttyUSB0
+  ```
+
+  or:
+
+  ```bash
+  $ rvmsudo ./services/mon.rb -s 57600 -d /dev/ttyUSB0
   ```
   
   * WEB Application server:
