@@ -19,13 +19,13 @@ First change to the application's directory:
   First find out your speed in bauds and wich device *(maybe `dmesg | tail -n 20` right after connecting the usb?)*
   
   ```bash
-  $ rvmsudo ./services/mon.rb --speed 57600 --device /dev/ttyUSB0
+  $ rvmsudo ./services/monitor/mon.rb --speed 57600 --device /dev/ttyUSB0
   ```
 
   or:
 
   ```bash
-  $ rvmsudo ./services/mon.rb -s 57600 -d /dev/ttyUSB0
+  $ rvmsudo ./services/monitor/mon.rb -s 57600 -d /dev/ttyUSB0
   ```
   
   * WEB Application server:
