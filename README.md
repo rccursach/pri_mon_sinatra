@@ -16,16 +16,18 @@ First change to the application's directory:
 
   * XBee listener:
   
+  You might need to set up sudo integration with rvm. see: [rvm.io sudo](https://rvm.io/integration/sudo)
+  
   First find out your speed in bauds and wich device *(maybe `dmesg | tail -n 20` right after connecting the usb?)*
   
   ```bash
-  $ rvmsudo ./services/monitor/mon.rb --speed 57600 --device /dev/ttyUSB0
+  $ rvmsudo ruby ./services/monitor/mon.rb --speed 57600 --device /dev/ttyUSB0
   ```
 
   or:
 
   ```bash
-  $ rvmsudo ./services/monitor/mon.rb -s 57600 -d /dev/ttyUSB0
+  $ rvmsudo ruby ./services/monitor/mon.rb -s 57600 -d /dev/ttyUSB0
   ```
   
   * WEB Application server:
