@@ -16,9 +16,14 @@ First change to the application's directory:
 
   * XBee listener:
   
-  You might need to set up sudo integration with rvm. see: [rvm.io sudo](https://rvm.io/integration/sudo)
+    * To be able to access the serial port you might need to set up sudo integration with rvm. see: [rvm.io sudo](https://rvm.io/integration/sudo).
+
+      Or you might wanto to add your user to the dialup group (debian/ubuntu):
+      
+      `$ sudo adduser $USER dialout`
+  
   
-  First find out your speed in bauds and wich device *(maybe `dmesg | tail -n 20` right after connecting the usb?)*
+  First find out your speed in bauds and wich device *(maybe `dmesg | tail -n 20` right after connecting the usb?)*
   
   ```bash
   $ rvmsudo ruby ./services/monitor/mon.rb --speed 57600 --device /dev/ttyUSB0
